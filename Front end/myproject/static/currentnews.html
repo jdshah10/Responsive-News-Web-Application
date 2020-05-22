@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="https://d3js.org/d3.v4.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
+        <style>
+            .maincontainer{ margin: auto; width: 1013px; margin-top: 25px;}
+            
+            #pageone{
+                 display: block;}
+            #pagetwo{display: block;}
+            
+            p{font-family: Georgia, 'Times New Roman', Times, serif;}
+            
+            
+            .switchgroup{position: fixed; }
+
+            .switchgroup .gnews {background-color: rgb(80, 79, 79); 
+                border: 1px solid rgb(133, 134, 133);
+                color: white; padding: 15px 32px;
+                text-align: center; text-decoration: none;
+                font-size: 18px; cursor: default;
+                width: 170px; display: block; outline: none;
+                font-family: Georgia, 'Times New Roman', Times, serif;}
+
+            .switchgroup .formsearch {background-color: rgb(237, 237, 237); 
+                border: 1px solid rgb(207, 206, 206);
+                color: black; padding: 15px 32px;
+                text-align: center; text-decoration: none;
+                font-size: 18px;  cursor: default;
+                width: 170px; display: block; outline: none;
+                font-family: Georgia, 'Times New Roman', Times, serif;}
+
+            .switchgroup .gnews:not(:last-child) {
+                border-bottom: none;}
+
+            .switchgroup .formsearch:not(:last-child) {
+                border-top: none;}
+            .switchgroup .gnews:hover {
+                background-color: rgb(120, 192, 123);}
+
+            .switchgroup .formsearch:hover { color: white;
+                background-color: rgb(120, 192, 123);}
+
+            .textcursor{cursor: text; margin: 0px;}
+            
+            .cc{display: flex; max-width: 800px; margin-left: 210px;}
+            
+            .newscorousal{position: relative; width: 475px; 
+                padding-right: 10px; margin-bottom: 0px;}
+            
+            .newscorousal img{vertical-align: middle;}
+            
+            .newscorousal .content{
+            text-align: center; position: absolute; bottom: 0;
+            background: rgba(0, 0, 0, 0.5); color: #f1f1f1;
+            width: 456px; padding-left: 5px; margin-right: 20px; padding-top: 0px;
+            padding-right: 5px; padding-bottom: 2px;;
+            font-family: Georgia, 'Times New Roman', Times, serif;}
+            
+            .content{padding-right: 10px;}
+
+            #my_dataviz{background-color: rgb(238, 238, 238); width: 320px;margin-left: 10px;}
+            
+            .newsheading{margin-left: 550px;}
+
+            .hrclass {border-top: 1px dotted black; margin-left: 195px;
+                width: 815px; margin-bottom: 10px;}
+
+            .cnnp, .foxp{ margin-top:40px; 
+                margin-bottom: unset; font-size: 32px; font-weight: bold;}
+
+            .cnnmain, .foxmain{display: flex; margin-left: 200px; max-width: 810px;}
+
+            .cnn, .fox {width: 25%; margin-right: 5px; border-radius: 5px;
+                border: 1px solid grey;}
+
+            .cnncontent, .foxcontent{height:350px; text-align: center; margin-top: -7px;
+                background-color: rgb(238, 238, 238); padding-top: 1px; padding-left: 2px;
+                padding-right: 2px; border-radius: 0px 0px 5px 5px;
+                font-family: Georgia, 'Times New Roman', Times, serif;}
+
+            .cnnnewsurltoimagefile, .foxnewsurltoimagefile{border-radius: 5px 5px 5px 5px; 
+                padding-bottom: 0px;}
+
+            #nt, #cnnt, #foxt{font-weight: bold;font-family: Georgia, 'Times New Roman', Times, serif;}
+            
+            #nd{margin-top: 0px; margin-bottom: 8px;}
+
+            #nt{margin-bottom: 10px; margin-top: 0px;}
+            
+            #pagetwo{display: none; max-width: 750px;
+                margin: auto; }
+
+            #newsform{ margin-left: 100px; border-radius: 5px;
+                background-color: rgb(243, 242, 242); width: 700px; height: 150px;}
+            
+            .required{text-align: center; padding-top: 15px;}
+            .required1{text-align: center; padding-bottom: 15px;}
+            
+            .required label, .required1 label{font-size: 15px;}
+
+            .required label:after {content:"*"; color: red;
+                padding-right: 15px;}
+            
+            .required1 label:after {padding-right: 15px;}
+
+            input[type=text] {border: 1px solid red; padding-left: 10px;
+                padding: 5px; }
+
+            input[type=date]{width: 120px; border:none; height: 18px; 
+                padding-left: 10px; padding-top: 5px;}
+
+            .formbutton{margin-top: 15px;padding: 10px 16px; font-size: 12px;
+                text-align: center;background-color: rgb(242, 242, 242); border: none;
+                font-family: Georgia, 'Times New Roman', Times, serif;}
+
+            .formbutton:hover{color: white;
+                background-color: rgb(93, 160, 95); }
+
+            select{text-align: center; width: 100px;}
+            
+            #result{margin-top: 20px; width:700px;
+                margin-left: 140px; margin-top: 30px;}
+            
+            .card {width: 90%; margin-top: 10px; display: flex;
+                border-radius: 5px; border: 1px solid rgb(201, 199, 199);
+                background-color: rgb(237, 237, 237); cursor: pointer;}
+
+            .dimg{float: left;}
+
+            .card:hover {box-shadow: 0px 4px 4px 4px rgba(0,0,0,0.2);}
+
+            #dimage {
+                width: 60px; height: 60px; padding-bottom: 15px;
+                padding-top: 20px; padding-left: 20px;}
+
+            .container {padding: 0px 15px 0px 15px; }
+
+            #pcross{float:right;}
+
+            #pone{margin:0px; display: inline-block; font-weight: bold; padding-left: 0px;
+                padding-right: 10px; padding-bottom: 0px; font-size: 16px; padding-top: 18px;}
+            
+            #ptwo{margin-top: 3px; padding-right: 10px; padding-top: 0px;
+                font-size: 13px; padding-left: 0px; padding-bottom: 5px;}
+            
+            #pcross{margin:0px; display: inline-block; margin-right: 5px;
+                padding: 10px; padding-left: 0px; font-size: 25px;}
+            
+            #showtime, #hidetime{ margin-top: 15px;padding: 10px 16px; font-size: 12px;
+                text-align: center;background-color: rgb(221, 224, 224); border: none;
+                font-family: Georgia, 'Times New Roman', Times, serif; font-size: 15px;
+                margin-left: 350px;}
+
+            #showtime:hover, #hidetime:hover{color: white;
+                background-color: rgb(93, 160, 95); 
+                }
+            
+            #pn{text-align: center;}
+
+        </style>
+
+       <!-- <script src="abcur.js"></script>-->
+    </head>
+    <body> 
+        <div class="maincontainer"><!--main container*/-->
+    
+            <div class="switchgroup">   <!--side buttons div element-->
+                <button id="gnews" class="gnews" style="border-radius: 3px 3px 0px 0px;" onclick="pageOne();"><p class="textcursor" >Google News</p></button>
+                <button id="formsearch" class="formsearch" style="border-radius: 0px 0px 3px 3px;" onclick="pageTwo();"><p class="textcursor">Search</p></button>
+            </div>
+
+        <div id="pageone">
+            <div class="cc"> 
+                <div class="newscorousal">
+                    <a class="newslink" href="" target="_blank" style="text-decoration: none;">
+                        <img class="newsurltoimagefile" src="" style="width:100%; height: 255px;">
+                        <div class="content">
+                            <p id="nt" style="font-size: 20px; padding-bottom: 0px;"></p>
+                            <p id="nd" style="padding-top: 0px;"></p>
+                        </div>
+                    </a>
+                </div>
+                <div id="my_dataviz"></div>
+            </div>
+        
+            <div class="newsheading">
+                <p class="cnnp">CNN</p>
+                
+            </div>
+            <hr class="hrclass">
+        <div class="cnnmain">  
+            
+            <div class="cnn">
+                <a class="cnnnewslink" href="" target="_blank" style="text-decoration: none; color: black;">
+                    <img class="cnnnewsurltoimagefile" src="" style="width:100%; height: 140px;">
+                    <div class="cnncontent">
+                        <p id="cnnt" ></p>
+                        <p id="cnnd"></p>
+                    </div>
+                </a>
+            </div>
+            <div class="cnn">
+                <a class="cnnnewslink" href="" target="_blank" style="text-decoration: none; color: black;">
+                    <img class="cnnnewsurltoimagefile" src="" style="width:100%; height: 140px;">
+                <br>
+                <div class="cnncontent">
+                    <p id="cnnt" ></p>
+                    <p id="cnnd"></p>
+                </div>
+            </a>
+            </div>
+            <div class="cnn">
+                <a class="cnnnewslink" href="" target="_blank" style="text-decoration: none; color: black;">
+                    <img class="cnnnewsurltoimagefile" src="" style="width:100%; height: 140px;">
+                
+                <div class="cnncontent">
+                    <p id="cnnt" ></p>
+                    <p id="cnnd"></p>
+                </div> 
+            </a> 
+            </div>
+            <div class="cnn">
+                <a class="cnnnewslink" href="" target="_blank" style="text-decoration: none; color: black;">
+                    <img class="cnnnewsurltoimagefile" src="" style="width:100%; height: 140px;">
+                
+                <div class="cnncontent">
+                    <p id="cnnt" ></p>
+                    <p id="cnnd"></p>
+                </div>
+            </a>
+            </div>
+        </div>
+        
+        <div class="newsheading">
+            <p class="foxp">Fox News</p>
+            
+        </div>
+        <hr class="hrclass">
+        <div class="foxmain">
+
+            <div class="fox">
+                <a class="foxnewslink" href="" target="_blank" style="text-decoration: none; color: black;">
+                    <img class="foxnewsurltoimagefile" src="" style="width:100%; height: 140px;">
+                
+                <div class="foxcontent">
+                    <p id="foxt"></p>
+                    <p id="foxd"></p>
+                </div>
+            </a>
+            </div>
+            <div class="fox">
+                <a class="foxnewslink" href="" target="_blank" style="text-decoration: none; color: black;">
+                    <img class="foxnewsurltoimagefile" src="" style="width:100%; height: 140px;">
+                
+                <div class="foxcontent">
+                    <p id="foxt"></p>
+                    <p id="foxd"></p>
+                </div>
+            </a>
+            </div>
+            <div class="fox">
+                <a class="foxnewslink" href="" target="_blank" style="text-decoration: none; color: black;">
+                    <img class="foxnewsurltoimagefile" src="" style="width:100%; height: 140px;">
+                
+                <div class="foxcontent">
+                    <p id="foxt"></p>
+                    <p id="foxd"></p>
+                </div>
+            </a>
+            </div>
+            <div class="fox">
+                <a class="foxnewslink" href="" target="_blank" style="text-decoration: none; color: black;">
+                    <img class="foxnewsurltoimagefile" src="" style="width:100%; height: 140px;">
+                
+                <div class="foxcontent">
+                    <p id="foxt"></p>
+                    <p id="foxd"></p>
+                </div>
+            </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <div id="pagetwo">
+            <div id="newsform">
+                <form onsubmit="checkForm();return false;">
+                    <div class="required">
+                        <p id="hell"> </p>
+                        <label for="Keyword" style="font-family: Georgia, 'Times New Roman', Times, serifs;" >Keyword</label>
+                        <input type="text" id="Keyword" name="Keyword" required oninput = "keywordInput()">
+                        <label for="From" style="font-family: Georgia, 'Times New Roman', Times, serifs;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;From</label>
+                        <input type="date" id="From" name="From" required>
+                        <label for="To" style="font-family: Georgia, 'Times New Roman', Times, serifs;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To</label>
+                        <input type="date" id="To" name="To" required><br><br>
+                    </div>
+                    <div class="required1">
+                        <label for="Category" style="font-family: Georgia, 'Times New Roman', Times, serifs;">Category&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <select id="Category" onchange="sendCategory()">
+                            <option value="all">all</option>
+                            <option value="Business">business</option>
+                            <option value="Entertainment">entertainment</option>
+                            <option value="General">general</option>
+                            <option value="Health">health</option>
+                            <option value="Science">science</option>
+                            <option value="Sports">sports</option>
+                            <option value="Technology">technology</option>
+                        </select>
+                        <label for="Source" style="font-family: Georgia, 'Times New Roman', Times, serifs;">&nbsp;&nbsp;&nbsp;&nbsp;Source&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <select id="Source">
+                            <option value="all">all</option></select></br>
+                            <input type="submit" class="formbutton" value="Search"/>
+                            <input type="button" class="formbutton" value="Clear" onclick="setFormToDefault()" />
+                    </div>
+                </form>
+            </div>
+            <div id="result"> </div>
+            <input type="button" style="display: none;" value="Show More" id="showtime"/>
+            <input type="button" style="display: none;" value="Show Less" id="hidetime"/>
+        </div>
+    </div> <!--whole container-->
+        <script src="/static/abcur.js"></script>
+        
+    </body>
+</html>
